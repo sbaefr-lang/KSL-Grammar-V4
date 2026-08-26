@@ -29,6 +29,10 @@
   --highlight:#fff1a6;
   --red:#d1495b;
   --white:#ffffff;
+  --more-main:#e2a154;
+  --more-bg:#fdf1e0;
+  --more-dark:#8a5a1e;
+  --more-border:#f0d9b0;
 }
 *{box-sizing:border-box;}
 body{
@@ -58,7 +62,7 @@ body{
   -webkit-overflow-scrolling:touch;
   scrollbar-width:none;
   padding:0 8px;
-  gap:0;
+  gap:5px;
 }
 .gram-tabs::-webkit-scrollbar{display:none;}
 .gram-tab{
@@ -73,15 +77,24 @@ body{
   background:var(--purple-main);
   color:#fff;
   border:1px solid var(--purple-main);
+  border-radius:14px 14px 0 0;
   cursor:pointer;
   transition:.15s;
 }
-.gram-tabs .gram-tab:first-child{border-top-left-radius:12px;}
-.gram-tabs .gram-tab:last-child{border-top-right-radius:12px;}
 .gram-tab.active{
   background:var(--card-bg);
   color:var(--purple-dark);
   border-color:var(--border);
+}
+/* 더 배워요 탭 (다른 색상으로 구분) */
+.gram-tab.more{
+  background:var(--more-main);
+  border-color:var(--more-main);
+}
+.gram-tab.more.active{
+  background:var(--more-bg);
+  color:var(--more-dark);
+  border-color:var(--more-border);
 }
 
 /* 하위 단계 탭 */
@@ -472,7 +485,8 @@ const grammarData = [
   compareTitle:"'-어서 그런지' vs '-어서'",
   compareRows:[
     ["의미","이유일 것 같다고 추측함","이유를 확실하게 말함"],
-    ["예문","길이 막혀서 그런지 늦네요. (추측)","길이 막혀서 늦었어요. (확실한 이유)"],
+    ["예문1","길이 막혀서 그런지 늦네요. (추측)","길이 막혀서 늦었어요. (확실한 이유)"],
+    ["예문2","오늘따라 피곤해서 그런지 자꾸 하품이 나요.","숙제를 안 해서 선생님께 혼났어요."],
     ["제약","명령문·청유문 불가","경우에 따라 제약 있음"]
   ],
   compareHead:["구분","-어서 그런지","-어서"]
@@ -522,7 +536,8 @@ const grammarData = [
   compareTitle:"'-는 줄 알다/모르다' (사실 인식) vs '-을 줄 알다/모르다' (능력)",
   compareRows:[
     ["의미","어떤 사실이나 상태를 알고 있거나 모름","어떤 일을 할 수 있는 능력이 있거나 없음"],
-    ["예문","비가 오는 줄 몰랐어요. (사실을 몰랐음)","저는 운전할 줄 몰라요. (운전 능력이 없음)"],
+    ["예문1","비가 오는 줄 몰랐어요. (사실을 몰랐음)","저는 운전할 줄 몰라요. (운전 능력이 없음)"],
+    ["예문2","한국어가 이렇게 어려운 줄 몰랐어요.","저는 김치를 담글 줄 알아요."],
     ["구분법","앞의 내용이 이미 일어난 사실인지 확인","앞의 내용이 할 수 있는 행동/기술인지 확인"]
   ],
   compareHead:["구분","사실 인식","능력"]
@@ -571,7 +586,8 @@ const grammarData = [
   compareTitle:"'-었더라면' vs '-았/었다면'",
   compareRows:[
     ["의미","과거 사실과 반대되는 상황을 가정, 아쉬움·후회의 뉘앙스가 강함","단순히 과거의 상황을 가정함, 후회의 뉘앙스가 약함"],
-    ["예문","미리 알았더라면 좋았을 텐데. (후회)","네가 그때 왔다면 만났을 텐데. (단순 가정)"]
+    ["예문1","미리 알았더라면 좋았을 텐데. (후회)","네가 그때 왔다면 만났을 텐데. (단순 가정)"],
+    ["예문2","일찍 일어났더라면 지각하지 않았을 거예요.","네가 그때 도와줬다면 훨씬 수월했을 거야."]
   ],
   compareHead:["구분","-었더라면","-았/었다면"]
 },
@@ -618,9 +634,109 @@ const grammarData = [
   compareTitle:"'-으려다가' vs '-다가'",
   compareRows:[
     ["의미","어떤 행동을 하려는 의도가 있었지만 실행하지 못하고 다른 행동으로 바뀜","동작이 끝나지 않은 상태에서 다른 동작으로 전환됨"],
-    ["예문","책을 사려다가 돈이 없어서 안 샀어요. (의도했지만 못 함)","책을 읽다가 잠이 들었어요. (실행 중 전환)"]
+    ["예문1","책을 사려다가 돈이 없어서 안 샀어요. (의도했지만 못 함)","책을 읽다가 잠이 들었어요. (실행 중 전환)"],
+    ["예문2","친구에게 전화하려다가 문자로 물어봤어요.","책을 읽다가 전화벨 소리에 깜짝 놀랐어요."]
   ],
   compareHead:["구분","-으려다가","-다가"]
+},
+{
+  isMore:true,
+  tabLabel:"-다니",
+  title:"-다니",
+  sub:"-았/었다니",
+  dialogue:[
+    {s:"ga", t:"① 준호야, 이 공책 좀 봐 줘."},
+    {s:"na", t:"② 우와, 색깔펜으로 다 표시했네. 이렇게 꼼꼼하게 정리하<mark>다니</mark>, 정말 대단하다!"},
+    {s:"ga", t:"③ 중요한 부분을 표시해 두면 나중에 다시 볼 때 편해."},
+    {s:"na", t:"④ 나도 이제부터 이렇게 정리해 봐야겠다."}
+  ],
+  meaning:{
+    textbook:"혼자서 그 많은 짐을 다 옮기<b>다니</b> 믿기지가 않아요.",
+    daily:"이 어려운 문제를 그렇게 빨리 풀<b>다니</b>, 정말 놀랍다!",
+    summary:"✅ 뜻밖의 사실을 알고 놀라거나 감탄할 때 쓰는 표현이에요."
+  },
+  forms:[
+    {cond:"동사·형용사 현재", form:"-다니", ex:"성공하다 → 성공하<b class='red'>다니</b>"},
+    {cond:"동사·형용사 과거", form:"-았/었다니", ex:"합격하다 → 합격했<b class='red'>다니</b>"},
+    {cond:"명사 + 이다", form:"(이)라니", ex:"1등이다 → 1등이<b class='red'>라니</b>"}
+  ],
+  formPractice:[
+    {word:"합격하다", answer:"합격하다니"},
+    {word:"잊어버리다", answer:"잊어버리다니"},
+    {word:"늦잠을 자다", answer:"늦잠을 자다니"},
+    {word:"포기하다", answer:"포기하다니"},
+    {word:"성공하다", answer:"성공하다니"}
+  ],
+  sentenceExample:"하루 만에 방 청소를 다 끝내다니, 정말 부지런하구나. (방 청소를 다 끝내다)",
+  sentencePractice:[
+    {q:"(밤새 게임을 하다) 걱정이다.", answer:"밤새 게임을 하다니"},
+    {q:"(그 사실을 몰랐다) 아쉽다.", answer:"그 사실을 몰랐다니"}
+  ],
+  talkMore:"최근에 놀랐던 일이 있어요?<br>'-다니'를 사용하여 말해 보세요.",
+  warnings:[
+    {t:"⚠️ 뜻밖의 사실에 대한 놀라움이나 감탄, 때로는 못마땅함을 나타낼 때 사용해요.",
+     ex:"예) 약속을 또 잊어버리<b>다니</b>, 정말 실망이야. (못마땅함)"},
+    {t:"⚠️ 뒤에는 주로 감탄이나 평가를 나타내는 말이 와요. (대단하다, 믿기지 않는다, 놀랍다 등)",
+     ex:"예) 혼자 그 많은 일을 해내<b>다니</b>, 정말 대단해요."},
+    {t:"⚠️ 단순한 사실을 객관적으로 전달할 때는 사용하지 않아요.",
+     ex:"예) 학교에 가다니. (X) → 학교에 가요. (O)"}
+  ],
+  compareTitle:"'-다니' vs '-군요'",
+  compareRows:[
+    ["의미","예상 밖의 사실에 대한 강한 놀라움·감탄","새롭게 알게 된 사실에 대한 담담한 감탄"],
+    ["예문1","이걸 혼자 다 만들다니! (강한 놀라움)","이걸 혼자 다 만들었군요. (담담한 감탄)"],
+    ["예문2","이 어려운 시험에 합격하다니 정말 기쁘다!","생각보다 일찍 도착했군요."]
+  ],
+  compareHead:["구분","-다니","-군요"]
+},
+{
+  isMore:true,
+  tabLabel:"에 비하면",
+  title:"에 비하면",
+  sub:"에 비해서",
+  dialogue:[
+    {s:"ga", t:"① 민재야, 요즘 듣는 수학 강의는 어때?"},
+    {s:"na", t:"② 저번에 들었던 강의<mark>에 비하면</mark> 훨씬 쉬워."},
+    {s:"ga", t:"③ 그래? 그럼 나도 그 강의를 한번 들어 볼까?"},
+    {s:"na", t:"④ 응, 쉽게 설명해 줘서 이해하기 편해."}
+  ],
+  meaning:{
+    textbook:"작년 겨울<b>에 비하면</b> 올해는 별로 안 추운 것 같아요.",
+    daily:"예전 휴대폰<b>에 비하면</b> 요즘 휴대폰은 배터리가 훨씬 오래가요.",
+    summary:"✅ 어떤 대상과 비교했을 때 차이가 있음을 나타내는 표현이에요."
+  },
+  forms:[
+    {cond:"명사 (받침 유무 상관없이)", form:"에 비하면", ex:"작년 → 작년<b class='red'>에 비하면</b>"},
+    {cond:"비슷한 표현", form:"에 비해(서)", ex:"가격 → 가격<b class='red'>에 비해서</b> 품질이 좋다"}
+  ],
+  formPractice:[
+    {word:"예전", answer:"예전에 비하면"},
+    {word:"작년", answer:"작년에 비하면"},
+    {word:"동생", answer:"동생에 비하면"},
+    {word:"기대", answer:"기대에 비하면"},
+    {word:"첫날", answer:"첫날에 비하면"}
+  ],
+  sentenceExample:"어제에 비하면 오늘은 날씨가 많이 따뜻해요. (어제)",
+  sentencePractice:[
+    {q:"(지난 학기) 이번 학기는 수업이 많아요.", answer:"지난 학기에 비하면"},
+    {q:"(예상) 결과가 훨씬 좋아요.", answer:"예상에 비하면"}
+  ],
+  talkMore:"지금과 예전을 비교해서 달라진 점이 있어요?<br>'에 비하면'을 사용하여 말해 보세요.",
+  warnings:[
+    {t:"⚠️ 명사 뒤에만 붙어요. 동사·형용사 뒤에는 바로 쓸 수 없고, '-는 것에 비하면'처럼 명사형으로 바꿔서 써요.",
+     ex:"예) 열심히 하다에 비하면 (X) → 열심히 한 것에 비하면 (O)"},
+    {t:"⚠️ 비교하는 대상이 문장 안에 분명하게 있어야 자연스러워요.",
+     ex:"예) 작년에 비하면 성적이 많이 올랐어요. (비교 대상: 작년)"},
+    {t:"⚠️ '에 비해(서)'와 바꿔 쓸 수 있지만, '에 비하면'이 조금 더 구어적인 느낌이에요.",
+     ex:"예) 가격에 비하면 품질이 좋아요. = 가격에 비해서 품질이 좋아요."}
+  ],
+  compareTitle:"'에 비하면' vs '보다'",
+  compareRows:[
+    ["의미","비교 대상과 대조하여 차이나 변화의 정도를 강조","두 대상을 단순하게 비교(우열)함"],
+    ["예문1","작년에 비하면 성적이 많이 올랐어요. (변화 강조)","형이 동생보다 키가 커요. (단순 비교)"],
+    ["예문2","예전에 비하면 요즘은 훨씬 편리해졌어요.","이 가방이 저 가방보다 더 커요."]
+  ],
+  compareHead:["구분","에 비하면","보다"]
 }
 ];
 
@@ -629,7 +745,7 @@ let curGram = 0, curStep = 0;
 function renderGramTabs(){
   const wrap = document.getElementById('gramTabs');
   wrap.innerHTML = grammarData.map((g,i)=>
-    `<div class="gram-tab ${i===curGram?'active':''}" data-i="${i}">${g.tabLabel}</div>`
+    `<div class="gram-tab ${g.isMore?'more':''} ${i===curGram?'active':''}" data-i="${i}">${g.tabLabel}</div>`
   ).join('');
   wrap.querySelectorAll('.gram-tab').forEach(el=>{
     el.addEventListener('click', ()=>{ curGram = +el.dataset.i; curStep = 0; renderAll(); });
