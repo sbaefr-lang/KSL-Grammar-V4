@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>의사소통 한국어 7과 문법을 배워요</title>
+
+<meta property="og:title" content="의사소통 한국어 7과 문법을 배워요">
+<meta property="og:description" content="시간이 없어서 아쉬울 따름이야 - 문법 6개를 인터랙티브로 배워요">
+<meta property="og:image" content="https://sbaefr-lang.github.io/KSL-Grammar-V2/assets/banner.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://sbaefr-lang.github.io/KSL-Grammar-V2/assets/banner.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800&family=Jua&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --purple-main:#8b6fc9;
+  --purple-dark:#5a3d99;
+  --bg:#f7f4fc;
+  --card-bg:#efe7fa;
+  --ink:#2c3438;
+  --border:#ded0f0;
+  --ga-bg:#ece4fb;
+  --ga-border:#cdb8ec;
+  --na-bg:#f8ecf7;
+  --na-border:#e3b9dc;
+  --highlight:#fff1a6;
+  --red:#d1495b;
+  --white:#ffffff;
+  --more-main:#e2a154;
+  --more-bg:#fdf1e0;
+  --more-dark:#8a5a1e;
+  --more-border:#f0d9b0;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--bg);
+  background-image:radial-gradient(circle at 1px 1px, #e6dbf6 1px, transparent 0);
+  background-size:22px 22px;
+  font-family:'Gothic A1',sans-serif;
+  color:var(--ink);
+  padding-bottom:90px;
+}
+.jua{font-family:'Jua',sans-serif;}
+
+/* 타이틀 */
+.page-title{
+  text-align:center;
+  font-size:15px;
+  font-weight:700;
+  color:#000;
+  padding:14px 10px 6px;
+}
+
+/* 상단 문법 탭 (책갈피) */
+.gram-tabs{
+  display:flex;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  padding:0 8px;
+  gap:5px;
+}
+.gram-tabs::-webkit-scrollbar{display:none;}
+.gram-tab{
+  flex:0 0 auto;
+  padding:12px 16px;
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  font-size:14px;
+  font-weight:700;
+  white-space:nowrap;
+  background:var(--purple-main);
+  color:#fff;
+  border:1px solid var(--purple-main);
+  border-radius:14px 14px 0 0;
+  cursor:pointer;
+  transition:.15s;
+}
+.gram-tab.active{
+  background:var(--card-bg);
+  color:var(--purple-dark);
+  border-color:var(--border);
+}
+/* 더 배워요 탭 (다른 색상으로 구분) */
+.gram-tab.more{
+  background:var(--more-main);
+  border-color:var(--more-main);
+}
+.gram-tab.more.active{
+  background:var(--more-bg);
+  color:var(--more-dark);
+  border-color:var(--more-border);
+}
+
+/* 하위 단계 탭 */
+.step-tabs{
+  display:flex;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  gap:6px;
+  padding:10px 10px 0;
+  background:var(--card-bg);
+}
+.step-tabs::-webkit-scrollbar{display:none;}
+.step-tab{
+  flex:0 0 auto;
+  padding:9px 13px;
+  min-height:40px;
+  display:flex;
+  align-items:center;
+  font-size:12.5px;
+  font-weight:600;
+  white-space:nowrap;
+  background:#fff;
+  color:#000;
+  border:1px solid var(--border);
+  border-radius:8px 8px 0 0;
+  cursor:pointer;
+}
+.step-tab.active{
+  background:#242229;
+  color:#fff;
+  border-color:#242229;
+}
+
+.progress{
+  text-align:center;
+  font-size:12px;
+  color:var(--purple-dark);
+  font-weight:700;
+  background:var(--card-bg);
+  padding:4px 0 10px;
+}
+
+/* 컨텐츠 영역 */
+.stage{
+  background:var(--card-bg);
+  padding:16px 14px 26px;
+  border-radius:0 0 14px 14px;
+  margin:0 6px 20px;
+}
+.panel{display:none;animation:fade .25s;}
+.panel.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+.grammar-title-box{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px 16px;
+  margin-bottom:14px;
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.grammar-title-box .main{
+  font-size:20px;
+  font-weight:800;
+  color:var(--purple-dark);
+}
+.grammar-title-box .sub{
+  font-size:13px;
+  color:#6b6b6b;
+  font-weight:500;
+}
+
+/* 1. 상황 도입 - 대화 */
+.dialogue{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.bubble-row{display:flex;}
+.bubble-row.ga{justify-content:flex-start;}
+.bubble-row.na{justify-content:flex-end;}
+.bubble{
+  max-width:82%;
+  padding:11px 14px;
+  border-radius:16px;
+  font-size:14.5px;
+  line-height:1.5;
+  color:#000;
+  font-weight:500;
+}
+.bubble-row.ga .bubble{background:var(--ga-bg);border:1px solid var(--ga-border);border-bottom-left-radius:4px;}
+.bubble-row.na .bubble{background:var(--na-bg);border:1px solid var(--na-border);border-bottom-right-radius:4px;}
+.bubble mark{
+  background:var(--highlight);
+  font-weight:800;
+  padding:0 2px;
+  border-radius:3px;
+}
+.intro-hint{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  justify-content:center;
+  background:#fff;
+  border:1.5px solid var(--purple-main);
+  border-radius:999px;
+  padding:10px 16px;
+  font-size:13.5px;
+  font-weight:600;
+  margin-top:6px;
+  flex-wrap:wrap;
+  text-align:center;
+}
+.chip{
+  background:var(--purple-dark);
+  color:#fff;
+  padding:2px 10px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:13px;
+}
+
+/* 2. 의미 */
+.ex-box{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:12px;
+  position:relative;
+}
+.ex-tag{
+  display:inline-block;
+  background:var(--card-bg);
+  color:var(--purple-dark);
+  border:1px solid var(--border);
+  font-size:11.5px;
+  font-weight:700;
+  padding:3px 10px;
+  border-radius:999px;
+  margin-bottom:8px;
+}
+.ex-box p{margin:0;font-size:14.5px;line-height:1.6;}
+.ex-box b{color:var(--purple-dark);font-weight:800;}
+.summary-box{
+  background:var(--card-bg);
+  border-radius:10px;
+  padding:12px 14px;
+  font-size:14px;
+  font-weight:700;
+  color:var(--purple-dark);
+  margin-top:14px;
+}
+
+/* 3. 형태 표 */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px;border:1px solid var(--border);}
+table.form-table{width:100%;border-collapse:collapse;background:#fff;min-width:480px;}
+table.form-table th{
+  background:var(--purple-main);
+  color:#fff;
+  font-size:13.5px;
+  padding:10px 8px;
+  text-align:left;
+  white-space:nowrap;
+}
+table.form-table td{
+  padding:12px 10px;
+  font-size:14px;
+  border-top:1px solid var(--border);
+  vertical-align:top;
+}
+table.form-table td.form-col{color:#000;font-weight:700;}
+table.form-table b.red{color:var(--red);font-weight:800;}
+
+/* 4,5. 연습 리스트 */
+.hint-bar{
+  background:var(--card-bg);
+  color:var(--purple-dark);
+  font-weight:700;
+  font-size:13.5px;
+  padding:10px 14px;
+  border-radius:10px;
+  margin-bottom:12px;
+}
+.example-box{
+  background:var(--card-bg);
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:14px;
+  font-size:14.5px;
+  font-weight:700;
+  line-height:1.6;
+  position:relative;
+  padding-top:30px;
+}
+.example-box .tag-bogi{
+  position:absolute;
+  top:-10px;left:14px;
+  background:#fff;
+  border:1px solid var(--border);
+  padding:3px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  color:var(--purple-dark);
+}
+.practice-item{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px 14px;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.practice-item .q{font-size:14.5px;font-weight:600;flex:1;min-width:150px;}
+.practice-item .q .answer-text{
+  display:none;
+  color:var(--purple-dark);
+  font-weight:800;
+  margin-left:4px;
+}
+.practice-item.revealed .q .answer-text{display:inline;}
+.btn-answer{
+  background:var(--purple-main);
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  padding:10px 16px;
+  font-size:13.5px;
+  font-weight:700;
+  min-height:44px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.practice-item.revealed .btn-answer{background:var(--card-bg);color:var(--purple-dark);}
+.btn-retry{
+  display:block;
+  width:100%;
+  background:#fff;
+  border:1.5px solid #000;
+  color:#000;
+  border-radius:10px;
+  padding:12px;
+  font-size:14px;
+  font-weight:700;
+  min-height:44px;
+  cursor:pointer;
+  margin-top:6px;
+}
+.talk-more{
+  margin-top:16px;
+  background:var(--card-bg);
+  border-radius:12px;
+  padding:14px;
+  font-size:13.5px;
+  font-weight:700;
+  color:var(--purple-dark);
+  text-align:center;
+  line-height:1.6;
+}
+.talk-more-page{
+  margin-top:4px;
+  background:var(--card-bg);
+  border-radius:14px;
+  padding:22px 18px;
+  font-size:15px;
+  font-weight:700;
+  color:var(--purple-dark);
+  text-align:center;
+  line-height:1.8;
+}
+
+/* 6. 사용 시 주의점 */
+.warning-box{
+  background:#fff;
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  padding:13px 14px;
+  margin-bottom:10px;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.6;
+}
+.warning-box .ex{
+  margin-top:8px;
+  background:var(--card-bg);
+  border-radius:8px;
+  padding:8px 10px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--purple-dark);
+}
+.warning-box .ex b{color:var(--red);font-weight:800;}
+
+/* 7. 비교문법 */
+.compare-box{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:12px;
+}
+.compare-box h4{margin:0 0 8px;color:var(--purple-dark);font-size:15px;}
+.compare-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+.compare-table th{background:var(--card-bg);color:var(--purple-dark);padding:8px;text-align:left;}
+.compare-table td{padding:8px;border-top:1px solid var(--border);}
+
+/* 이전/다음 */
+.nav-buttons{
+  display:flex;
+  gap:10px;
+  padding:0 12px;
+  margin-top:6px;
+}
+.nav-btn{
+  flex:1;
+  background:#fff;
+  border:1.5px solid #d8cfc2;
+  color:#000;
+  padding:13px;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:700;
+  min-height:44px;
+  cursor:pointer;
+}
+.nav-btn:disabled{opacity:.35;cursor:default;}
+
+@media (min-width:640px){
+  .stage{margin:0 20px 20px;padding:22px;}
+  .nav-buttons{padding:0 20px;}
+}
+</style>
+</head>
+<body>
+
+<div class="page-title">의사소통 한국어 7과 문법을 배워요</div>
+
+<div class="gram-tabs" id="gramTabs"></div>
+<div class="step-tabs" id="stepTabs"></div>
+<div class="progress" id="progressLabel"></div>
+
+<div class="stage" id="stage"></div>
+
+<div class="nav-buttons">
+  <button class="nav-btn" id="prevBtn">← 이전</button>
+  <button class="nav-btn" id="nextBtn">다음 →</button>
+</div>
+
+<script>
+const STEP_NAMES_MAIN = ["상황 도입","의미","형태","형태 연습","문장 연습","사용 시 주의점","비교 문법","말해 보세요"];
+const STEP_NAMES_MORE = ["상황 도입","의미","형태","형태 연습","문장 연습","사용 시 주의점","비교 문법"];
+function getStepNames(g){ return g.isMore ? STEP_NAMES_MORE : STEP_NAMES_MAIN; }
+
+const grammarData = [
+{
+  tabLabel:"①V-을 따름이다",
+  title:"-을 따름이다",
+  sub:"-ㄹ 따름이다",
+  dialogue:[
+    {s:"ga", t:"① 안나야, 주말에 우리 집에 놀러 올래? 내 생일이거든."},
+    {s:"na", t:"② 어떡하지? 그날 봉사 활동을 가야 해서 안 될 것 같아. 미안해."},
+    {s:"ga", t:"③ 괜찮아. 그런데 넌 봉사 활동을 정말 자주 가는 것 같아. 힘들겠다."},
+    {s:"na", t:"④ 아니야. 더 자주 하고 싶은데 시간이 없어서 아쉬<mark>울 따름이야</mark>."}
+  ],
+  meaning:{
+    textbook:"시간이 없어서 아쉬울 <b>따름이에요</b>.",
+    daily:"말없이 내 일을 도와준 친구가 고마<b>울 따름이야</b>.",
+    summary:"✓ 오직 그러한 마음이나 상태뿐임을 담담하게 강조하는 표현이에요."
+  },
+  forms:[
+    {cond:"받침 있는 동사·형용사", form:"-을 따름이다", ex:"기쁘다 → 기쁠<b class='red'> 따름이다</b>"},
+    {cond:"받침 없는 동사·형용사", form:"-ㄹ 따름이다", ex:"바라다 → 바랄<b class='red'> 따름이다</b>"}
+  ],
+  formPractice:[
+    {word:"기쁘다", answer:"기쁠 따름이다"},
+    {word:"감사하다", answer:"감사할 따름이다"},
+    {word:"아쉽다", answer:"아쉬울 따름이다"},
+    {word:"바라다", answer:"바랄 따름이다"},
+    {word:"부끄럽다", answer:"부끄러울 따름이다"}
+  ],
+  sentenceExample:"도와주셔서 그저 감사할 따름입니다. (감사하다)",
+  sentencePractice:[
+    {q:"(시간이 부족하다) 준비를 다 못했어요.", answer:"시간이 부족할 따름이에요"},
+    {q:"(건강하게 지내다) 그것만 바랄 뿐이에요.", answer:"건강하게 지내기를 바랄 따름이에요"}
+  ],
+  talkMore:"어떤 일에 대한 자신의 감정을<br>'-을 따름이다'를 사용하여 말해 보세요.",
+  warnings:[
+    {t:"⚠️ 다른 감정이나 이유 없이 오직 그 마음뿐임을 격식 있게 표현할 때 사용해요.",
+     ex:"예) 그저 감사할 따름입니다."},
+    {t:"⚠️ 공식적인 자리나 글에서 자주 사용하는 다소 격식적인 표현이에요.",
+     ex:"예) 발표, 인사말, 감사 인사 등"},
+    {t:"⚠️ '-을 뿐이다'와 의미가 비슷하지만 '-을 따름이다'가 더 정중하고 격식적이에요."}
+  ],
+  compareTitle:"'-을 따름이다' vs '-을 뿐이다'",
+  compareRows:[
+    ["의미","오직 그 마음·상태뿐임(격식적, 정중함)","오직 그것뿐임(일반적, 담담함)"],
+    ["예문1","그저 감사할 따름입니다. (정중한 인사말)","그냥 최선을 다했을 뿐이에요. (담담한 설명)"],
+    ["예문2","시간이 부족할 따름입니다.","시간이 부족했을 뿐이에요."]
+  ],
+  compareHead:["구분","-을 따름이다","-을 뿐이다"]
+},
+{
+  tabLabel:"②V-는 김에",
+  title:"-는 김에",
+  sub:"-은 김에",
+  dialogue:[
+    {s:"ga", t:"① 선생님, 헌혈 캠페인에 참가하<mark>는 김에</mark> 헌혈도 하고 싶은데요. 저도 할 수 있나요?"},
+    {s:"na", t:"② 만 16세 이상이면 할 수 있어요. 하지만 몸무게나 수면 시간 등 몇 가지를 확인해서 문제가 없어야 가능해요."},
+    {s:"ga", t:"③ 그럼 저희 헌혈부터 할게요. 검사해 주세요."},
+    {s:"na", t:"④ 그래요. 그럼 헌혈하고 나서 캠페인을 하기로 해요. 그때 이 띠를 두르고 나가세요."}
+  ],
+  meaning:{
+    textbook:"청소를 하는 <b>김에</b> 창문도 닦았어요.",
+    daily:"내 것 사<b>는 김에</b> 네 것도 하나 샀어.",
+    summary:"✓ 어떤 일을 하는 기회를 이용해서 다른 일도 함께 함을 나타내는 표현이에요."
+  },
+  forms:[
+    {cond:"동사 (현재)", form:"-는 김에", ex:"가다 → 가<b class='red'>는 김에</b>"},
+    {cond:"동사 (과거)", form:"-은/ㄴ 김에", ex:"온 → 온<b class='red'> 김에</b>"}
+  ],
+  formPractice:[
+    {word:"가다", answer:"가는 김에"},
+    {word:"청소하다", answer:"청소하는 김에"},
+    {word:"나가다", answer:"나가는 김에"},
+    {word:"오다", answer:"온 김에"},
+    {word:"만나다", answer:"만나는 김에"}
+  ],
+  sentenceExample:"마트에 가는 김에 과일도 좀 사 왔어요. (마트에 가다)",
+  sentencePractice:[
+    {q:"(청소를 하다) 창문도 닦았어요.", answer:"청소를 하는 김에"},
+    {q:"(친구를 만나다) 밀린 이야기도 했어요.", answer:"친구를 만나는 김에"}
+  ],
+  talkMore:"어떤 일을 기회로 삼아 더 하고 싶은 일이 있어요.<br>'-는 김에'를 사용하여 말해 보세요.",
+  warnings:[
+    {t:"⚠️ 원래 하려던 일에 더해 기회를 살려 다른 일도 함께 함을 나타내요.",
+     ex:"예) 나가는 김에 편지도 부치고 왔어요."},
+    {t:"⚠️ 계획하지 않았지만 기회가 생겨서 하게 된 일에 자주 사용해요.",
+     ex:"예) 청소하는 김에 정리도 했어요."},
+    {t:"⚠️ 과거의 완료된 일을 말할 때는 '-은 김에'를 사용해요.",
+     ex:"예) 온 김에 인사하고 갈게요."}
+  ],
+  compareTitle:"'-는 김에' vs '-으면서'",
+  compareRows:[
+    ["의미","한 일을 하는 기회를 살려 다른 일도 함께 함","두 가지 일이 동시에 일어남"],
+    ["예문1","마트에 가는 김에 과일도 샀어요. (겸사겸사)","마트에 가면서 전화 통화를 했어요. (동시 진행)"],
+    ["예문2","청소하는 김에 정리도 했어요.","청소하면서 음악을 들었어요."]
+  ],
+  compareHead:["구분","-는 김에","-으면서"]
+},
+{
+  tabLabel:"③A/V-았/었던",
+  title:"-았/었던",
+  sub:"-였던",
+  dialogue:[
+    {s:"ga", t:"① 엄마, 저 다음 달에 봉사 활동으로 아이들에게 책을 읽어 주러 가요. 그때 아이들에게 선물을 하려고 하는데 뭐가 좋을까요?"},
+    {s:"na", t:"② 응, 아이들이 읽을 만한 책을 선물하면 어떨까? 네가 예전에 읽<mark>었던</mark> 책을 주면 좋을 것 같은데."},
+    {s:"ga", t:"③ 아, 좋은 것 같아요. 그럼 봉사 활동을 하러 같이 가는 친구들에게 이야기해 봐야겠어요."},
+    {s:"na", t:"④ 그래. 친구들과 이야기해서 아이들에게 줄 책을 모아 보도록 하렴."}
+  ],
+  meaning:{
+    textbook:"어릴 때 부끄러움이 많<b>았던</b> 아이가 연예인이 되었다니 믿기지 않아요.",
+    daily:"지난번에 같이 먹<b>었던</b> 음식이 뭐지? 맛있었는데.",
+    summary:"✓ 과거에 있었던 일이나 경험을 회상하며 뒤의 명사를 꾸며 주는 표현이에요."
+  },
+  forms:[
+    {cond:"동사·형용사 (과거 경험)", form:"-았/었던", ex:"가다 → 갔<b class='red'>던</b>"},
+    {cond:"이다", form:"-였던/이었던", ex:"학생이다 → 학생<b class='red'>이었던</b>"}
+  ],
+  formPractice:[
+    {word:"먹다", answer:"먹었던"},
+    {word:"가다", answer:"갔던"},
+    {word:"예쁘다", answer:"예뻤던"},
+    {word:"부끄럽다", answer:"부끄러웠던"},
+    {word:"학생이다", answer:"학생이었던"}
+  ],
+  sentenceExample:"작년에 여행 갔던 곳이 참 좋았어요. (작년에 여행 가다)",
+  sentencePractice:[
+    {q:"(어릴 때 좋아하다) 만화를 다시 봤어요.", answer:"어릴 때 좋아했던"},
+    {q:"(예전에 친했다) 친구를 오랜만에 만났어요.", answer:"예전에 친했던"}
+  ],
+  talkMore:"전에 어떤 일을 한 친구가 있어요. 그 친구에 대해<br>'-었던'을 사용하여 말해 보세요.",
+  warnings:[
+    {t:"⚠️ 완전히 끝난 과거의 경험을 회상할 때 사용하며, 뒤에는 항상 명사가 와요.",
+     ex:"예) 갔던 곳, 먹었던 음식, 만났던 사람"},
+    {t:"⚠️ 아직 끝나지 않고 중단된 일을 말할 때는 '-던'을 사용해요.",
+     ex:"예) 마시던 물 (다 안 마심) / 마셨던 물 (한 번의 경험)"},
+    {t:"⚠️ 오래전의 추억이나 경험을 이야기할 때 자주 사용해요."}
+  ],
+  compareTitle:"'-았/었던' vs '-던'",
+  compareRows:[
+    ["의미","완전히 끝난 과거의 일이나 경험을 회상","중단되어 끝나지 않은 과거의 일을 회상"],
+    ["예문1","작년에 갔던 곳이에요. (완료된 경험)","마시던 물이 아직 남아 있어요. (미완료)"],
+    ["예문2","어릴 때 읽었던 책이에요.","읽던 책을 다시 펼쳤어요."]
+  ],
+  compareHead:["구분","-았/었던","-던"]
+},
+{
+  tabLabel:"④V-고 해서",
+  title:"-고 해서",
+  sub:"-기도 하고 -고 해서",
+  dialogue:[
+    {s:"ga", t:"① 나나야, 주말에 나랑 김장 봉사 활동에 가지 않을래?"},
+    {s:"na", t:"② 주말에 바쁘기도 하<mark>고 해서</mark> 나는 안 가려고 해."},
+    {s:"ga", t:"③ 가서 배우면 되잖아. 그러지 말고 같이 신청해 보자."},
+    {s:"na", t:"④ 아니. 아무리 봉사 활동이라고 해도 난 내가 잘할 수 있는 걸 하고 싶어. 다른 봉사 활동에 참여할게."}
+  ],
+  meaning:{
+    textbook:"시간이 없어서 아쉬울 따름이<b>야</b>. 할 일도 많<b>고 해서</b> 오래 못 있을 것 같아.",
+    daily:"날씨도 춥<b>고 해서</b> 다음에 만나기로 했어.",
+    summary:"✓ 여러 이유 중 하나를 예로 들면서 그로 인한 결과를 말하는 표현이에요."
+  },
+  forms:[
+    {cond:"동사·형용사 (받침 유무 상관없이)", form:"-고 해서", ex:"많다 → 많<b class='red'>고 해서</b>"}
+  ],
+  formPractice:[
+    {word:"바쁘다", answer:"바쁘고 해서"},
+    {word:"피곤하다", answer:"피곤하고 해서"},
+    {word:"춥다", answer:"춥고 해서"},
+    {word:"할 일이 있다", answer:"할 일이 있고 해서"},
+    {word:"배고프다", answer:"배고프고 해서"}
+  ],
+  sentenceExample:"날씨도 좋고 해서 공원에 나갔어요. (날씨도 좋다)",
+  sentencePractice:[
+    {q:"(시간도 남다) 미리 준비했어요.", answer:"시간도 남고 해서"},
+    {q:"(피곤하다) 일찍 잠자리에 들었어요.", answer:"피곤하고 해서"}
+  ],
+  talkMore:"여러 가지 이유 중 어떤 이유로 해서, 무슨 일이나 행동을 해요.<br>'-고 해서'를 사용하여 말해 보세요.",
+  warnings:[
+    {t:"⚠️ 여러 이유 중 하나를 대표로 들어서 말할 때 사용하며, 그 이유가 전부는 아니에요.",
+     ex:"예) 날씨도 좋고 해서 나갔어요. (다른 이유도 있을 수 있음)"},
+    {t:"⚠️ '-기도 하고 -고 해서'처럼 이유를 여러 개 나열하기도 해요.",
+     ex:"예) 배도 고프고 시간도 남고 해서 밥을 먼저 먹었어요."},
+    {t:"⚠️ 뒤 문장에는 그 이유로 인한 자연스러운 결과가 와요."}
+  ],
+  compareTitle:"'-고 해서' vs '-어서'",
+  compareRows:[
+    ["의미","여러 이유 중 하나를 예로 들며 완곡하게 말함","이유를 직접적이고 명확하게 말함"],
+    ["예문1","시간도 있고 해서 산책했어요. (완곡)","시간이 있어서 산책했어요. (직접적)"],
+    ["예문2","날씨도 좋고 해서 나갔어요.","날씨가 좋아서 나갔어요."]
+  ],
+  compareHead:["구분","-고 해서","-어서"]
+},
+{
+  isMore:true,
+  tabLabel:"A/V-으면 -을 만도 하다",
+  title:"-만 같아도",
+  sub:"-만 하면",
+  dialogue:[
+    {s:"ga", t:"① 이번 주말에 벽화 그리는 봉사 활동 같이 안 갈래?"},
+    {s:"na", t:"② 나도 같이 하고 싶긴 한데, 시간이 지금<mark>만 같아도</mark> 갈 수 있을 텐데."},
+    {s:"ga", t:"③ 아쉽다. 다음에는 꼭 같이 가자."},
+    {s:"na", t:"④ 응, 방학만 같아도 매주 갈 수 있을 텐데 아쉽다."}
+  ],
+  meaning:{
+    textbook:"시간이 조금 전<b>만 같아도</b> 도와줄 수 있었을 텐데요.",
+    daily:"날씨가 어제<b>만 같아도</b> 소풍 가기 딱 좋았을 텐데요.",
+    summary:"✓ 어떤 기준이나 예전 상황 정도만 되어도 좋겠다는 아쉬움을 나타내는 표현이에요."
+  },
+  forms:[
+    {cond:"명사 + 만 같아도", form:"N만 같아도", ex:"지금 → 지금<b class='red'>만 같아도</b>"}
+  ],
+  formPractice:[
+    {word:"어제", answer:"어제만 같아도"},
+    {word:"작년", answer:"작년만 같아도"},
+    {word:"예전", answer:"예전만 같아도"},
+    {word:"지금", answer:"지금만 같아도"},
+    {word:"그때", answer:"그때만 같아도"}
+  ],
+  sentenceExample:"날씨가 어제만 같아도 나가서 놀았을 텐데요. (어제)",
+  sentencePractice:[
+    {q:"(예전) 이 정도는 쉽게 했을 텐데요.", answer:"예전만 같아도"},
+    {q:"(작년) 방학이 더 길었을 텐데요.", answer:"작년만 같아도"}
+  ],
+  talkMore:"예전이나 어떤 기준만 같았어도 좋았을 상황이 있어요?<br>'-만 같아도'를 사용하여 말해 보세요.",
+  warnings:[
+    {t:"⚠️ 현재 상황이 그 기준에 미치지 못해서 아쉬움을 나타낼 때 사용해요.",
+     ex:"예) 시간이 조금만 같아도 갈 수 있었을 텐데. (지금은 시간이 부족함)"},
+    {t:"⚠️ 뒤에는 주로 '-을 텐데(요)'가 함께 쓰여서 아쉬움을 강조해요.",
+     ex:"예) 어제만 같아도 나갈 수 있었을 텐데요."},
+    {t:"⚠️ 명사 뒤에 사용하는 표현으로, 동사·형용사에는 바로 붙이지 않아요."}
+  ],
+  compareTitle:"'-만 같아도' vs '-았/었으면'",
+  compareRows:[
+    ["의미","특정 기준·예전 상황 정도만 되어도 좋겠다는 아쉬움","단순한 가정을 나타냄"],
+    ["예문1","시간이 어제만 같아도 갈 수 있었을 텐데요.","시간이 있었으면 갈 수 있었을 텐데요."],
+    ["예문2","방학만 같아도 매주 갈 텐데요.","방학이었으면 매주 갔을 거예요."]
+  ],
+  compareHead:["구분","-만 같아도","-았/었으면"]
+},
+{
+  isMore:true,
+  tabLabel:"N-이나마",
+  title:"-이나마",
+  sub:"-나마",
+  dialogue:[
+    {s:"ga", t:"① 이번에 봉사 활동 시간이 얼마 안 남았는데 어떡하지?"},
+    {s:"na", t:"② 짧은 시간<mark>이나마</mark> 최선을 다해 보자."},
+    {s:"ga", t:"③ 그래, 조금이나마 도움이 되면 좋겠다."},
+    {s:"na", t:"④ 응, 잠깐이나마 함께해서 좋았어."}
+  ],
+  meaning:{
+    textbook:"부족하<b>나마</b> 최선을 다했습니다.",
+    daily:"잠깐<b>이나마</b> 만나서 반가웠어요.",
+    summary:"✓ 충분하지는 않지만 그 정도로라도 만족하거나 감사함을 나타내는 표현이에요."
+  },
+  forms:[
+    {cond:"받침 있는 명사", form:"-이나마", ex:"조금 → 조금<b class='red'>이나마</b>"},
+    {cond:"받침 없는 명사", form:"-나마", ex:"잠깐 → 잠깐<b class='red'>이나마</b>"}
+  ],
+  formPractice:[
+    {word:"조금", answer:"조금이나마"},
+    {word:"잠깐", answer:"잠깐이나마"},
+    {word:"짧은 시간", answer:"짧은 시간이나마"},
+    {word:"이 정도", answer:"이 정도나마"},
+    {word:"약간", answer:"약간이나마"}
+  ],
+  sentenceExample:"조금이나마 도움이 되었으면 좋겠어요. (조금)",
+  sentencePractice:[
+    {q:"(잠깐) 만나서 이야기할 수 있어서 좋았어요.", answer:"잠깐이나마"},
+    {q:"(적은 돈) 보탬이 되면 좋겠어요.", answer:"적은 돈이나마"}
+  ],
+  talkMore:"충분하지는 않아도 그 정도로 만족했던 경험이 있어요?<br>'-이나마'를 사용하여 말해 보세요.",
+  warnings:[
+    {t:"⚠️ 충분하지 않은 것을 알면서도 그 정도로 감사하거나 만족함을 나타내요.",
+     ex:"예) 조금이나마 도움이 되어서 다행이에요."},
+    {t:"⚠️ 명사 뒤에 붙으며, 겸손하게 표현할 때 자주 사용해요.",
+     ex:"예) 부족한 실력이나마 최선을 다했습니다."},
+    {t:"⚠️ 격식 있는 인사말이나 감사 표현에서 자주 쓰여요."}
+  ],
+  compareTitle:"'-이나마' vs '-만이라도'",
+  compareRows:[
+    ["의미","부족하지만 그 정도로 만족·감사함(겸손한 어감)","최소한 그것만이라도 하자는 제안·바람"],
+    ["예문1","조금이나마 도움이 되었으면 해요. (겸손)","조금만이라도 도와주세요. (요청)"],
+    ["예문2","잠깐이나마 만나서 좋았어요.","잠깐만이라도 쉬고 싶어요."]
+  ],
+  compareHead:["구분","-이나마","-만이라도"]
+}
+];
+
+
+
+let curGram = 0, curStep = 0;
+
+function renderGramTabs(){
+  const wrap = document.getElementById('gramTabs');
+  wrap.innerHTML = grammarData.map((g,i)=>
+    `<div class="gram-tab ${g.isMore?'more':''} ${i===curGram?'active':''}" data-i="${i}">${g.tabLabel}</div>`
+  ).join('');
+  wrap.querySelectorAll('.gram-tab').forEach(el=>{
+    el.addEventListener('click', ()=>{ curGram = +el.dataset.i; curStep = 0; renderAll(); });
+  });
+  const active = wrap.querySelector('.gram-tab.active');
+  if(active) active.scrollIntoView({inline:'center', behavior:'smooth', block:'nearest'});
+}
+
+function renderStepTabs(){
+  const g = grammarData[curGram];
+  const names = getStepNames(g);
+  const wrap = document.getElementById('stepTabs');
+  wrap.innerHTML = names.map((n,i)=>
+    `<div class="step-tab ${i===curStep?'active':''}" data-i="${i}">${i+1}. ${n}</div>`
+  ).join('');
+  wrap.querySelectorAll('.step-tab').forEach(el=>{
+    el.addEventListener('click', ()=>{ curStep = +el.dataset.i; renderAll(); });
+  });
+  const active = wrap.querySelector('.step-tab.active');
+  if(active) active.scrollIntoView({inline:'center', behavior:'smooth', block:'nearest'});
+}
+
+function renderProgress(){
+  const total = getStepNames(grammarData[curGram]).length;
+  document.getElementById('progressLabel').textContent = `문법 ${curGram+1} · ${curStep+1}/${total}`;
+}
+
+function practiceListHTML(items){
+  return items.map((it,idx)=>`
+    <div class="practice-item" data-idx="${idx}">
+      <div class="q">${it.word ? it.word : it.q} <span class="answer-text">→ ${it.answer}</span></div>
+      <button class="btn-answer">정답 보기</button>
+    </div>
+  `).join('') + `<button class="btn-retry">다시 풀기</button>`;
+}
+
+function renderStage(){
+  const g = grammarData[curGram];
+  const stage = document.getElementById('stage');
+  let html = `<div class="grammar-title-box"><span class="main jua">${g.title}</span><span class="sub">${g.sub}</span></div>`;
+
+  const stepName = getStepNames(g)[curStep];
+
+  if(stepName==="상황 도입"){
+    html += `<div class="dialogue">` + g.dialogue.map(d=>
+      `<div class="bubble-row ${d.s}"><div class="bubble">${d.t}</div></div>`
+    ).join('') + `</div>`;
+    html += `<div class="intro-hint">💡 <span class="chip">${g.title}</span>가 어디에 쓰였는지 찾아보세요!</div>`;
+  }
+  else if(stepName==="의미"){
+    html += `<div class="ex-box"><span class="ex-tag">교재 예문</span><p>${g.meaning.textbook}</p></div>`;
+    html += `<div class="ex-box"><span class="ex-tag">일상 예문</span><p>${g.meaning.daily}</p></div>`;
+    html += `<div class="summary-box">${g.meaning.summary}</div>`;
+  }
+  else if(stepName==="형태"){
+    html += `<div class="table-wrap"><table class="form-table"><tr><th>조건</th><th>형태</th><th>예시</th></tr>`
+      + g.forms.map(f=>`<tr><td>${f.cond}</td><td class="form-col">${f.form}</td><td>${f.ex}</td></tr>`).join('')
+      + `</table></div>`;
+  }
+  else if(stepName==="형태 연습"){
+    html += `<div class="hint-bar">💡 단어를 클릭하면 답이 나타나요.</div>`;
+    html += practiceListHTML(g.formPractice);
+  }
+  else if(stepName==="문장 연습"){
+    html += `<div class="example-box"><span class="tag-bogi">보기</span>${g.sentenceExample}</div>`;
+    html += practiceListHTML(g.sentencePractice);
+  }
+  else if(stepName==="말해 보세요"){
+    html += `<div class="talk-more-page">${g.talkMore}</div>`;
+  }
+  else if(stepName==="사용 시 주의점"){
+    html += g.warnings.map(w=>`<div class="warning-box">${w.t}<div class="ex">${w.ex}</div></div>`).join('');
+  }
+  else if(stepName==="비교 문법"){
+    html += `<div class="compare-box"><h4>${g.compareTitle}</h4>
+      <table class="compare-table"><tr>${g.compareHead.map(h=>`<th>${h}</th>`).join('')}</tr>
+      ${g.compareRows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}
+      </table></div>`;
+  }
+
+  stage.innerHTML = html;
+
+  stage.querySelectorAll('.btn-answer').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      btn.closest('.practice-item').classList.add('revealed');
+    });
+  });
+  const retry = stage.querySelector('.btn-retry');
+  if(retry){
+    retry.addEventListener('click', ()=>{
+      stage.querySelectorAll('.practice-item').forEach(it=>it.classList.remove('revealed'));
+    });
+  }
+}
+
+function renderNav(){
+  const total = getStepNames(grammarData[curGram]).length;
+  document.getElementById('prevBtn').disabled = (curGram===0 && curStep===0);
+  document.getElementById('nextBtn').disabled = (curGram===grammarData.length-1 && curStep===total-1);
+}
+
+function renderAll(){
+  renderGramTabs();
+  renderStepTabs();
+  renderProgress();
+  renderStage();
+  renderNav();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.getElementById('prevBtn').addEventListener('click', ()=>{
+  if(curStep>0){ curStep--; }
+  else if(curGram>0){ curGram--; curStep = getStepNames(grammarData[curGram]).length - 1; }
+  renderAll();
+});
+document.getElementById('nextBtn').addEventListener('click', ()=>{
+  const total = getStepNames(grammarData[curGram]).length;
+  if(curStep<total-1){ curStep++; }
+  else if(curGram<grammarData.length-1){ curGram++; curStep=0; }
+  renderAll();
+});
+
+renderAll();
+</script>
+</body>
+</html>
