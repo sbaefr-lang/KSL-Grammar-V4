@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>의사소통 한국어 2과 문법을 배워요</title>
+
+<meta property="og:title" content="의사소통 한국어 2과 문법을 배워요">
+<meta property="og:description" content="화재 시에는 문을 함부로 연다거나 엘리베이터를 타면 안 된대 - 문법 6개를 인터랙티브로 배워요">
+<meta property="og:image" content="https://sbaefr-lang.github.io/KSL-Grammar-V2/assets/banner.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://sbaefr-lang.github.io/KSL-Grammar-V2/assets/banner.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800&family=Jua&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --purple-main:#8b6fc9;
+  --purple-dark:#5a3d99;
+  --bg:#f7f4fc;
+  --card-bg:#efe7fa;
+  --ink:#2c3438;
+  --border:#ded0f0;
+  --ga-bg:#ece4fb;
+  --ga-border:#cdb8ec;
+  --na-bg:#f8ecf7;
+  --na-border:#e3b9dc;
+  --highlight:#fff1a6;
+  --red:#d1495b;
+  --white:#ffffff;
+  --more-main:#e2a154;
+  --more-bg:#fdf1e0;
+  --more-dark:#8a5a1e;
+  --more-border:#f0d9b0;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--bg);
+  background-image:radial-gradient(circle at 1px 1px, #e6dbf6 1px, transparent 0);
+  background-size:22px 22px;
+  font-family:'Gothic A1',sans-serif;
+  color:var(--ink);
+  padding-bottom:90px;
+}
+.jua{font-family:'Jua',sans-serif;}
+
+/* 타이틀 */
+.page-title{
+  text-align:center;
+  font-size:15px;
+  font-weight:700;
+  color:#000;
+  padding:14px 10px 6px;
+}
+
+/* 상단 문법 탭 (책갈피) */
+.gram-tabs{
+  display:flex;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  padding:0 8px;
+  gap:5px;
+}
+.gram-tabs::-webkit-scrollbar{display:none;}
+.gram-tab{
+  flex:0 0 auto;
+  padding:12px 16px;
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  font-size:14px;
+  font-weight:700;
+  white-space:nowrap;
+  background:var(--purple-main);
+  color:#fff;
+  border:1px solid var(--purple-main);
+  border-radius:14px 14px 0 0;
+  cursor:pointer;
+  transition:.15s;
+}
+.gram-tab.active{
+  background:var(--card-bg);
+  color:var(--purple-dark);
+  border-color:var(--border);
+}
+/* 더 배워요 탭 (다른 색상으로 구분) */
+.gram-tab.more{
+  background:var(--more-main);
+  border-color:var(--more-main);
+}
+.gram-tab.more.active{
+  background:var(--more-bg);
+  color:var(--more-dark);
+  border-color:var(--more-border);
+}
+
+/* 하위 단계 탭 */
+.step-tabs{
+  display:flex;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  gap:6px;
+  padding:10px 10px 0;
+  background:var(--card-bg);
+}
+.step-tabs::-webkit-scrollbar{display:none;}
+.step-tab{
+  flex:0 0 auto;
+  padding:9px 13px;
+  min-height:40px;
+  display:flex;
+  align-items:center;
+  font-size:12.5px;
+  font-weight:600;
+  white-space:nowrap;
+  background:#fff;
+  color:#000;
+  border:1px solid var(--border);
+  border-radius:8px 8px 0 0;
+  cursor:pointer;
+}
+.step-tab.active{
+  background:#242229;
+  color:#fff;
+  border-color:#242229;
+}
+
+.progress{
+  text-align:center;
+  font-size:12px;
+  color:var(--purple-dark);
+  font-weight:700;
+  background:var(--card-bg);
+  padding:4px 0 10px;
+}
+
+/* 컨텐츠 영역 */
+.stage{
+  background:var(--card-bg);
+  padding:16px 14px 26px;
+  border-radius:0 0 14px 14px;
+  margin:0 6px 20px;
+}
+.panel{display:none;animation:fade .25s;}
+.panel.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+.grammar-title-box{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px 16px;
+  margin-bottom:14px;
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.grammar-title-box .main{
+  font-size:20px;
+  font-weight:800;
+  color:var(--purple-dark);
+}
+.grammar-title-box .sub{
+  font-size:13px;
+  color:#6b6b6b;
+  font-weight:500;
+}
+
+/* 1. 상황 도입 - 대화 */
+.dialogue{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.bubble-row{display:flex;}
+.bubble-row.ga{justify-content:flex-start;}
+.bubble-row.na{justify-content:flex-end;}
+.bubble{
+  max-width:82%;
+  padding:11px 14px;
+  border-radius:16px;
+  font-size:14.5px;
+  line-height:1.5;
+  color:#000;
+  font-weight:500;
+}
+.bubble-row.ga .bubble{background:var(--ga-bg);border:1px solid var(--ga-border);border-bottom-left-radius:4px;}
+.bubble-row.na .bubble{background:var(--na-bg);border:1px solid var(--na-border);border-bottom-right-radius:4px;}
+.bubble mark{
+  background:var(--highlight);
+  font-weight:800;
+  padding:0 2px;
+  border-radius:3px;
+}
+.intro-hint{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  justify-content:center;
+  background:#fff;
+  border:1.5px solid var(--purple-main);
+  border-radius:999px;
+  padding:10px 16px;
+  font-size:13.5px;
+  font-weight:600;
+  margin-top:6px;
+  flex-wrap:wrap;
+  text-align:center;
+}
+.chip{
+  background:var(--purple-dark);
+  color:#fff;
+  padding:2px 10px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:13px;
+}
+
+/* 2. 의미 */
+.ex-box{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:12px;
+  position:relative;
+}
+.ex-tag{
+  display:inline-block;
+  background:var(--card-bg);
+  color:var(--purple-dark);
+  border:1px solid var(--border);
+  font-size:11.5px;
+  font-weight:700;
+  padding:3px 10px;
+  border-radius:999px;
+  margin-bottom:8px;
+}
+.ex-box p{margin:0;font-size:14.5px;line-height:1.6;}
+.ex-box b{color:var(--purple-dark);font-weight:800;}
+.summary-box{
+  background:var(--card-bg);
+  border-radius:10px;
+  padding:12px 14px;
+  font-size:14px;
+  font-weight:700;
+  color:var(--purple-dark);
+  margin-top:14px;
+}
+
+/* 3. 형태 표 */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px;border:1px solid var(--border);}
+table.form-table{width:100%;border-collapse:collapse;background:#fff;min-width:480px;}
+table.form-table th{
+  background:var(--purple-main);
+  color:#fff;
+  font-size:13.5px;
+  padding:10px 8px;
+  text-align:left;
+  white-space:nowrap;
+}
+table.form-table td{
+  padding:12px 10px;
+  font-size:14px;
+  border-top:1px solid var(--border);
+  vertical-align:top;
+}
+table.form-table td.form-col{color:#000;font-weight:700;}
+table.form-table b.red{color:var(--red);font-weight:800;}
+
+/* 4,5. 연습 리스트 */
+.hint-bar{
+  background:var(--card-bg);
+  color:var(--purple-dark);
+  font-weight:700;
+  font-size:13.5px;
+  padding:10px 14px;
+  border-radius:10px;
+  margin-bottom:12px;
+}
+.example-box{
+  background:var(--card-bg);
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:14px;
+  font-size:14.5px;
+  font-weight:700;
+  line-height:1.6;
+  position:relative;
+  padding-top:30px;
+}
+.example-box .tag-bogi{
+  position:absolute;
+  top:-10px;left:14px;
+  background:#fff;
+  border:1px solid var(--border);
+  padding:3px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  color:var(--purple-dark);
+}
+.practice-item{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px 14px;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.practice-item .q{font-size:14.5px;font-weight:600;flex:1;min-width:150px;}
+.practice-item .q .answer-text{
+  display:none;
+  color:var(--purple-dark);
+  font-weight:800;
+  margin-left:4px;
+}
+.practice-item.revealed .q .answer-text{display:inline;}
+.btn-answer{
+  background:var(--purple-main);
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  padding:10px 16px;
+  font-size:13.5px;
+  font-weight:700;
+  min-height:44px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.practice-item.revealed .btn-answer{background:var(--card-bg);color:var(--purple-dark);}
+.btn-retry{
+  display:block;
+  width:100%;
+  background:#fff;
+  border:1.5px solid #000;
+  color:#000;
+  border-radius:10px;
+  padding:12px;
+  font-size:14px;
+  font-weight:700;
+  min-height:44px;
+  cursor:pointer;
+  margin-top:6px;
+}
+.talk-more{
+  margin-top:16px;
+  background:var(--card-bg);
+  border-radius:12px;
+  padding:14px;
+  font-size:13.5px;
+  font-weight:700;
+  color:var(--purple-dark);
+  text-align:center;
+  line-height:1.6;
+}
+.talk-more-page{
+  margin-top:4px;
+  background:var(--card-bg);
+  border-radius:14px;
+  padding:22px 18px;
+  font-size:15px;
+  font-weight:700;
+  color:var(--purple-dark);
+  text-align:center;
+  line-height:1.8;
+}
+
+/* 6. 사용 시 주의점 */
+.warning-box{
+  background:#fff;
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  padding:13px 14px;
+  margin-bottom:10px;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.6;
+}
+.warning-box .ex{
+  margin-top:8px;
+  background:var(--card-bg);
+  border-radius:8px;
+  padding:8px 10px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--purple-dark);
+}
+.warning-box .ex b{color:var(--red);font-weight:800;}
+
+/* 7. 비교문법 */
+.compare-box{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:12px;
+}
+.compare-box h4{margin:0 0 8px;color:var(--purple-dark);font-size:15px;}
+.compare-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+.compare-table th{background:var(--card-bg);color:var(--purple-dark);padding:8px;text-align:left;}
+.compare-table td{padding:8px;border-top:1px solid var(--border);}
+
+/* 이전/다음 */
+.nav-buttons{
+  display:flex;
+  gap:10px;
+  padding:0 12px;
+  margin-top:6px;
+}
+.nav-btn{
+  flex:1;
+  background:#fff;
+  border:1.5px solid #d8cfc2;
+  color:#000;
+  padding:13px;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:700;
+  min-height:44px;
+  cursor:pointer;
+}
+.nav-btn:disabled{opacity:.35;cursor:default;}
+
+@media (min-width:640px){
+  .stage{margin:0 20px 20px;padding:22px;}
+  .nav-buttons{padding:0 20px;}
+}
+</style>
+</head>
+<body>
+
+<div class="page-title">의사소통 한국어 2과 문법을 배워요</div>
+
+<div class="gram-tabs" id="gramTabs"></div>
+<div class="step-tabs" id="stepTabs"></div>
+<div class="progress" id="progressLabel"></div>
+
+<div class="stage" id="stage"></div>
+
+<div class="nav-buttons">
+  <button class="nav-btn" id="prevBtn">← 이전</button>
+  <button class="nav-btn" id="nextBtn">다음 →</button>
+</div>
+
+<script>
+const STEP_NAMES_MAIN = ["상황 도입","의미","형태","형태 연습","문장 연습","사용 시 주의점","비교 문법","말해 보세요"];
+const STEP_NAMES_MORE = ["상황 도입","의미","형태","형태 연습","문장 연습","사용 시 주의점","비교 문법"];
+function getStepNames(g){ return g.isMore ? STEP_NAMES_MORE : STEP_NAMES_MAIN; }
+
+const grammarData = [
+{
+  tabLabel:"①V-는다거나",
+  title:"-는다거나",
+  sub:"-ㄴ다거나, -다거나",
+  dialogue:[
+    {s:"ga", t:"① 지민아, 화재 대피 방법 알아?"},
+    {s:"na", t:"② 응. 문을 함부로 열<mark>ㄴ다거나</mark> 엘리베이터를 타면 안 된대."},
+    {s:"ga", t:"③ 그래? 그럼 어떻게 해야 해?"},
+    {s:"na", t:"④ 계단으로 대피하거나 젖은 수건으로 코를 막는다거나 하면 돼."}
+  ],
+  meaning:{
+    textbook:"남이 발표할 때 웃<b>는다거나</b> 떠든<b>다거나</b> 하면 발표에 방해가 돼요.",
+    daily:"머리가 아프<b>다거나</b> 열이 나<b>다거나</b> 하면 약을 드세요.",
+    summary:"✓ 여러 가지 행위를 예로 들어 나열하면서 설명할 때 쓰는 표현이에요."
+  },
+  forms:[
+    {cond:"받침 있는 동사", form:"-는다거나", ex:"먹다 → 먹<b class='red'>는다거나</b>"},
+    {cond:"받침 없는 동사", form:"-ㄴ다거나", ex:"가다 → 가<b class='red'>ㄴ다거나</b>"},
+    {cond:"형용사·이다", form:"-다거나", ex:"조용하다 → 조용하<b class='red'>다거나</b>"}
+  ],
+  formPractice:[
+    {word:"웃다", answer:"웃는다거나"},
+    {word:"떠들다", answer:"떠든다거나"},
+    {word:"자다", answer:"잔다거나"},
+    {word:"걷다", answer:"걷는다거나"},
+    {word:"놀다", answer:"논다거나"}
+  ],
+  sentenceExample:"숙제를 안 한다거나 지각을 한다거나 하면 선생님께 혼나요. (숙제를 안 하다)",
+  sentencePractice:[
+    {q:"(교실에서 뛰다) 다른 친구와 부딪힐 수 있어요.", answer:"교실에서 뛴다거나"},
+    {q:"(거짓말을 하다) 하면 친구를 잃을 수 있어요.", answer:"거짓말을 한다거나"}
+  ],
+  talkMore:"여러분은 무슨 일들을 할 때 보람을 느껴요?<br>'-는다거나'를 사용하여 말해 보세요.",
+  warnings:[
+    {t:"⚠️ 두 가지 이상의 행위를 예로 들 때 사용하며, 보통 뒤에 '하다'가 이어져요.",
+     ex:"예) 뛰어다닌다거나 소리를 지른다거나 하면 안 돼요."},
+    {t:"⚠️ 한 가지 행위만 말할 때는 자연스럽지 않아요. 두 개 이상 나열할 때 사용해요.",
+     ex:"예) 문을 연다거나. (X) → 문을 연다거나 창문을 연다거나 하면 안 돼요. (O)"},
+    {t:"⚠️ 실제로 일어난 일이 아니라 예시로 드는 행동이므로, 이미 있었던 일을 설명할 때는 사용하지 않아요.",
+     ex:"예) 어제 뛴다거나 걷는다거나 했어요. (X) → 어제 뛰거나 걸었어요. (O)"}
+  ],
+  compareTitle:"'-는다거나' vs '-거나'",
+  compareRows:[
+    ["의미","여러 행위를 예로 들어 나열함","둘 중 하나를 선택하거나 단순히 나열함"],
+    ["예문1","떠든다거나 뛴다거나 하면 안 돼요. (여러 예시)","버스나 지하철을 타고 가요. (둘 중 선택)"],
+    ["예문2","숙제를 안 한다거나 지각한다거나 하면 혼나요.","공부하거나 쉬거나 마음대로 하세요."]
+  ],
+  compareHead:["구분","-는다거나","-거나"]
+},
+{
+  tabLabel:"②피동 표현",
+  title:"피동 표현",
+  sub:"-이/히/리/기-, -아/어지다",
+  dialogue:[
+    {s:"ga", t:"① 어? 창문이 왜 이렇게 흔들리지?"},
+    {s:"na", t:"② 바람이 많이 불어서 그런가 봐."},
+    {s:"ga", t:"③ 갑자기 문이 <mark>열려서</mark> 깜짝 놀랐어."},
+    {s:"na", t:"④ 나도 모기한테 물려서 팔이 가려워."}
+  ],
+  meaning:{
+    textbook:"수호가 모기에 <b>물렸어요</b>.",
+    daily:"창문이 저절로 <b>열려</b> 있었어요.",
+    summary:"✓ 주어의 의지와 상관없이 외부적인 영향으로 상황이 변화함을 나타내는 표현이에요."
+  },
+  forms:[
+    {cond:"동사 어간 + 이/히/리/기", form:"피동 접미사", ex:"먹다 → 먹<b class='red'>히</b>다"},
+    {cond:"동사 어간 + -아/어지다", form:"-아/어지다", ex:"끊다 → 끊<b class='red'>어지다</b>"},
+    {cond:"이미 피동 의미인 동사", form:"그대로 사용", ex:"열리다, 물리다, 잠기다 등"}
+  ],
+  formPractice:[
+    {word:"열다", answer:"열리다"},
+    {word:"물다", answer:"물리다"},
+    {word:"끊다", answer:"끊어지다"},
+    {word:"잠그다", answer:"잠기다"},
+    {word:"닫다", answer:"닫히다"}
+  ],
+  sentenceExample:"바람 때문에 창문이 저절로 닫혔어요. (창문을 닫다)",
+  sentencePractice:[
+    {q:"(문을 잠그다) 아무도 없는데 저절로요.", answer:"문이 잠겼어요"},
+    {q:"(모기가 물다) 팔이 너무 가려워요.", answer:"모기한테 물렸어요"}
+  ],
+  talkMore:"지진이 나면 어떤 일이 생겨요?<br>'피동 표현'을 사용하여 말해 보세요.",
+  warnings:[
+    {t:"⚠️ 주어가 스스로 한 행동이 아니라 다른 힘에 의해 일어난 일임을 나타내요.",
+     ex:"예) 제가 문을 열었어요. (능동) / 문이 열렸어요. (피동)"},
+    {t:"⚠️ 모든 동사에 피동 접미사가 붙는 것은 아니므로, 단어별로 형태를 따로 익혀야 해요.",
+     ex:"예) 먹다 → 먹히다 (O) / 가다 → 가히다 (X)"},
+    {t:"⚠️ 이미 그 자체로 피동의 의미를 가지므로, '-어지다'와 이중으로 겹쳐 쓰지 않아요.",
+     ex:"예) 닫혀지다 (X) → 닫히다 (O)"}
+  ],
+  compareTitle:"피동 표현 vs 사동 표현",
+  compareRows:[
+    ["의미","주어가 남의 힘에 의해 행동을 당함","주어가 남에게 행동을 하게 시킴"],
+    ["예문1","물고기가 큰 물고기에게 먹혔어요. (피동)","엄마가 아이에게 밥을 먹였어요. (사동)"],
+    ["예문2","문이 바람에 닫혔어요. (피동)","선생님이 학생에게 책을 읽혔어요. (사동)"]
+  ],
+  compareHead:["구분","피동 표현","사동 표현"]
+},
+{
+  tabLabel:"③V-을 뿐만 아니라",
+  title:"-을 뿐만 아니라",
+  sub:"-ㄹ 뿐만 아니라",
+  dialogue:[
+    {s:"ga", t:"① 이 동아리 어때? 가입할까 고민 중이야."},
+    {s:"na", t:"② 활동이 재미있<mark>을 뿐만 아니라</mark> 배우는 것도 많아."},
+    {s:"ga", t:"③ 정말? 그럼 나도 한번 가입해 볼까?"},
+    {s:"na", t:"④ 응, 선배들도 친절할 뿐만 아니라 잘 챙겨 줘."}
+  ],
+  meaning:{
+    textbook:"운동을 꾸준히 하면 기분이 상쾌해질 <b>뿐만 아니라</b> 건강에도 도움이 돼요.",
+    daily:"오늘은 기온이 낮<b>을 뿐만 아니라</b> 바람도 많이 불어요.",
+    summary:"✓ 앞의 내용에 더해 뒤의 내용까지 그러함을 나타내는 표현이에요."
+  },
+  forms:[
+    {cond:"받침 있는 동사·형용사", form:"-을 뿐만 아니라", ex:"좋다 → 좋<b class='red'>을 뿐만 아니라</b>"},
+    {cond:"받침 없는 동사·형용사", form:"-ㄹ 뿐만 아니라", ex:"크다 → 크<b class='red'>ㄹ 뿐만 아니라</b>"},
+    {cond:"명사 + 이다", form:"일 뿐만 아니라", ex:"학생 → 학생<b class='red'>일 뿐만 아니라</b>"}
+  ],
+  formPractice:[
+    {word:"예쁘다", answer:"예쁠 뿐만 아니라"},
+    {word:"넓다", answer:"넓을 뿐만 아니라"},
+    {word:"빠르다", answer:"빠를 뿐만 아니라"},
+    {word:"똑똑하다", answer:"똑똑할 뿐만 아니라"},
+    {word:"착하다", answer:"착할 뿐만 아니라"}
+  ],
+  sentenceExample:"이 가방은 디자인이 예쁠 뿐만 아니라 튼튼해요. (디자인이 예쁘다)",
+  sentencePractice:[
+    {q:"(가격이 싸다) 품질도 좋아요.", answer:"가격이 쌀 뿐만 아니라"},
+    {q:"(성격이 밝다) 노래도 잘해요.", answer:"성격이 밝을 뿐만 아니라"}
+  ],
+  talkMore:"친구에게 장점이 많아요.<br>'-을 뿐만 아니라'를 사용하여 말해 보세요.",
+  warnings:[
+    {t:"⚠️ 앞뒤에 비슷한 방향(둘 다 긍정적이거나 둘 다 부정적)의 내용이 와야 자연스러워요.",
+     ex:"예) 방이 깨끗할 뿐만 아니라 넓어요. (둘 다 긍정) / 방이 깨끗할 뿐만 아니라 좁아요. (어색)"},
+    {t:"⚠️ 앞에서 다룬 특성에 더해 새로운 특성을 하나 더 추가할 때 사용해요.",
+     ex:"예) 성격이 좋을 뿐만 아니라 능력도 뛰어나요."},
+    {t:"⚠️ '뿐만 아니라' 뒤에는 보통 '도'가 함께 쓰여서 추가되는 내용을 강조해요.",
+     ex:"예) 맛있을 뿐만 아니라 건강에도 좋아요."}
+  ],
+  compareTitle:"'-을 뿐만 아니라' vs '-는 데다가'",
+  compareRows:[
+    ["의미","앞 내용에 더해 뒤의 내용까지 작용함을 강조","앞 내용에 뒤의 내용이 덧붙여짐(비슷한 의미, 더 구어적)"],
+    ["예문1","이 카페는 조용할 뿐만 아니라 커피도 맛있어요.","이 카페는 조용한 데다가 커피도 맛있어요."],
+    ["예문2","그 영화는 재미있을 뿐만 아니라 감동적이에요.","그 영화는 재미있는 데다가 감동적이에요."]
+  ],
+  compareHead:["구분","-을 뿐만 아니라","-는 데다가"]
+},
+{
+  tabLabel:"④V-던",
+  title:"-던",
+  sub:"-았/었던",
+  dialogue:[
+    {s:"ga", t:"① 이 우산 누구 거야? 아까부터 여기 있던데."},
+    {s:"na", t:"② 아, 그거 내가 아침에 쓰<mark>던</mark> 우산이야."},
+    {s:"ga", t:"③ 그렇구나. 근데 어제 보던 책은 다 읽었어?"},
+    {s:"na", t:"④ 아니, 재미없어서 읽다가 그만뒀어."}
+  ],
+  meaning:{
+    textbook:"이 주스 네가 마시<b>던</b> 거였어? 목이 말라서 내가 다 마셨는데 어떡하지?",
+    daily:"아까 마시<b>던</b> 우유가 냉장고에 있어요.",
+    summary:"✓ 과거에 하다가 끝내지 못하고 중단된 일을 나타내는 표현이에요."
+  },
+  forms:[
+    {cond:"동사 (받침 유무 상관없이)", form:"-던", ex:"읽다 → 읽<b class='red'>던</b>"},
+    {cond:"과거에 완료된 일을 회상", form:"-았/었던", ex:"가다 → 갔<b class='red'>던</b>"}
+  ],
+  formPractice:[
+    {word:"먹다", answer:"먹던"},
+    {word:"읽다", answer:"읽던"},
+    {word:"쓰다", answer:"쓰던"},
+    {word:"만들다", answer:"만들던"},
+    {word:"그리다", answer:"그리던"}
+  ],
+  sentenceExample:"어제 보던 드라마를 오늘도 이어서 봤어요. (어제 보다)",
+  sentencePractice:[
+    {q:"(아까 듣다) 노래 제목이 뭐예요?", answer:"아까 듣던"},
+    {q:"(작년에 다니다) 학원을 다시 다니기 시작했어요.", answer:"작년에 다니던"}
+  ],
+  talkMore:"친구가 있어요. 옛날에 어떤 행동을 한 친구예요?<br>'-던'을 사용하여 말해 보세요.",
+  warnings:[
+    {t:"⚠️ 과거에 끝내지 못하고 중단된 일에 사용하며, 완전히 끝난 일에는 '-았/었던'을 써요.",
+     ex:"예) 어제 먹던 빵이 남아 있어요. (다 못 먹음) / 어제 가 봤던 식당이에요. (경험, 완료)"},
+    {t:"⚠️ 뒤에는 항상 명사가 이어져서 '-던 + 명사' 형태로 사용해요.",
+     ex:"예) 마시던 물, 읽던 책"},
+    {t:"⚠️ 다른 사람에게 전해 들은 사실을 회상할 때도 사용할 수 있어요.",
+     ex:"예) 친구가 맛있다고 하던 식당에 가 봤어요."}
+  ],
+  compareTitle:"'-던' vs '-았/었던'",
+  compareRows:[
+    ["의미","과거에 중단되어 끝나지 않은 일을 회상","과거에 완전히 끝난 일이나 경험을 회상"],
+    ["예문1","마시던 물이 아직 남아 있어요. (다 안 마심)","작년에 마셨던 물이 정말 시원했어요. (한 번의 경험)"],
+    ["예문2","읽던 책을 다시 펼쳤어요.","어릴 때 읽었던 책을 다시 찾아봤어요."]
+  ],
+  compareHead:["구분","-던","-았/었던"]
+},
+{
+  isMore:true,
+  tabLabel:"N-으로 인해",
+  title:"으로 인해",
+  sub:"로 인해",
+  dialogue:[
+    {s:"ga", t:"① 뉴스 봤어? 어젯밤에 큰불이 났대."},
+    {s:"na", t:"② 어, 봤어. 전기 합선<mark>으로 인해</mark> 불이 났다고 하더라."},
+    {s:"ga", t:"③ 다친 사람은 없대?"},
+    {s:"na", t:"④ 다행히 화재로 인해 다친 사람은 없대."}
+  ],
+  meaning:{
+    textbook:"태풍<b>으로 인해</b> 학교 수업이 취소되었어요.",
+    daily:"갑작스러운 소나기<b>로 인해</b> 우산 없이 나온 사람들이 비를 맞았어요.",
+    summary:"✓ 어떤 일의 원인이나 이유를 나타내는, 격식 있는 표현이에요."
+  },
+  forms:[
+    {cond:"명사 (받침 있음)", form:"으로 인해", ex:"태풍 → 태풍<b class='red'>으로 인해</b>"},
+    {cond:"명사 (받침 없음)", form:"로 인해", ex:"화재 → 화재<b class='red'>로 인해</b>"}
+  ],
+  formPractice:[
+    {word:"지진", answer:"지진으로 인해"},
+    {word:"폭설", answer:"폭설로 인해"},
+    {word:"사고", answer:"사고로 인해"},
+    {word:"소음", answer:"소음으로 인해"},
+    {word:"실수", answer:"실수로 인해"}
+  ],
+  sentenceExample:"폭우로 인해 강물이 많이 불어났어요. (폭우)",
+  sentencePractice:[
+    {q:"(안개) 비행기가 결항되었어요.", answer:"안개로 인해"},
+    {q:"(공사 소음) 밤에 잠을 못 잤어요.", answer:"공사 소음으로 인해"}
+  ],
+  talkMore:"최근에 어떤 일이 원인이 되어 생긴 일이 있어요?<br>'으로 인해'를 사용하여 말해 보세요.",
+  warnings:[
+    {t:"⚠️ 명사 뒤에만 붙으며, 동사·형용사 뒤에는 '-기 때문에'처럼 다른 표현을 사용해야 해요.",
+     ex:"예) 늦기로 인해 (X) → 늦었기 때문에 (O)"},
+    {t:"⚠️ 뉴스나 안내문 등 격식 있는 상황에서 주로 사용해요. 일상 대화에서는 '때문에'를 더 많이 써요.",
+     ex:"예) 지진으로 인해 (뉴스·안내문) / 지진 때문에 (일상 대화)"},
+    {t:"⚠️ 주로 부정적인 결과의 원인을 말할 때 사용해요.",
+     ex:"예) 폭설로 인해 도로가 통제되었습니다."}
+  ],
+  compareTitle:"'으로 인해' vs '때문에'",
+  compareRows:[
+    ["의미","원인·이유를 나타냄 (격식적, 문어적)","원인·이유를 나타냄 (일상적, 구어적)"],
+    ["예문1","폭설로 인해 도로가 통제되었습니다. (뉴스)","눈이 많이 와서 늦었어요. 눈 때문이에요. (일상)"],
+    ["예문2","기술 발전으로 인해 생활이 편리해졌다.","스마트폰 때문에 요즘 책을 안 읽어요."]
+  ],
+  compareHead:["구분","으로 인해","때문에"]
+},
+{
+  isMore:true,
+  tabLabel:"V-고서",
+  title:"-고서",
+  sub:"-고",
+  dialogue:[
+    {s:"ga", t:"① 어제 숙제 다 했어?"},
+    {s:"na", t:"② 응, 저녁을 먹<mark>고서</mark> 바로 시작했어."},
+    {s:"ga", t:"③ 오, 부지런하네. 다 하고서 뭐 했어?"},
+    {s:"na", t:"④ 다 하고서 좋아하는 드라마를 봤어."}
+  ],
+  meaning:{
+    textbook:"손을 씻<b>고서</b> 밥을 먹어요.",
+    daily:"숙제를 끝내<b>고서</b> 친구를 만나러 나갔어요.",
+    summary:"✓ 앞의 행동을 끝낸 후에 뒤의 행동이 이어짐을 강조하는 표현이에요."
+  },
+  forms:[
+    {cond:"동사 (받침 유무 상관없이)", form:"-고서", ex:"먹다 → 먹<b class='red'>고서</b>"}
+  ],
+  formPractice:[
+    {word:"씻다", answer:"씻고서"},
+    {word:"끝내다", answer:"끝내고서"},
+    {word:"청소하다", answer:"청소하고서"},
+    {word:"일어나다", answer:"일어나고서"},
+    {word:"준비하다", answer:"준비하고서"}
+  ],
+  sentenceExample:"아침을 먹고서 학교에 갔어요. (아침을 먹다)",
+  sentencePractice:[
+    {q:"(숙제를 끝내다) 텔레비전을 봤어요.", answer:"숙제를 끝내고서"},
+    {q:"(옷을 갈아입다) 운동하러 나갔어요.", answer:"옷을 갈아입고서"}
+  ],
+  talkMore:"오늘 아침에 무엇을 하고서 학교에 왔어요?<br>'-고서'를 사용하여 말해 보세요.",
+  warnings:[
+    {t:"⚠️ 앞의 행동이 완전히 끝난 후에 뒤의 행동이 일어남을 강조할 때 사용해요.",
+     ex:"예) 밥을 먹고서 이를 닦아요. (먹는 것이 끝난 후)"},
+    {t:"⚠️ 앞뒤 문장의 주어가 같을 때만 사용하며, 주어가 다르면 사용하지 않아요.",
+     ex:"예) (제가) 숙제를 하고서 (제가) 잤어요. (O) / 제가 숙제를 하고서 엄마가 오셨어요. (X)"},
+    {t:"⚠️ 단순한 나열에는 '-고'를 쓰고, 순서를 강조할 때는 '-고서'를 써요.",
+     ex:"예) 저는 학생이고 형은 회사원이에요. (단순 나열) / 밥을 먹고서 나갔어요. (순서 강조)"}
+  ],
+  compareTitle:"'-고서' vs '-고'",
+  compareRows:[
+    ["의미","앞 행동이 끝난 후 뒤 행동이 이어짐을 강조","단순히 두 가지 이상의 사실을 나열함"],
+    ["예문1","숙제를 하고서 잤어요. (순서 강조)","저는 학생이고 형은 회사원이에요. (단순 나열)"],
+    ["예문2","손을 씻고서 밥을 먹었어요.","사과를 먹고 바나나를 먹었어요."]
+  ],
+  compareHead:["구분","-고서","-고"]
+}
+];
+
+
+let curGram = 0, curStep = 0;
+
+function renderGramTabs(){
+  const wrap = document.getElementById('gramTabs');
+  wrap.innerHTML = grammarData.map((g,i)=>
+    `<div class="gram-tab ${g.isMore?'more':''} ${i===curGram?'active':''}" data-i="${i}">${g.tabLabel}</div>`
+  ).join('');
+  wrap.querySelectorAll('.gram-tab').forEach(el=>{
+    el.addEventListener('click', ()=>{ curGram = +el.dataset.i; curStep = 0; renderAll(); });
+  });
+  const active = wrap.querySelector('.gram-tab.active');
+  if(active) active.scrollIntoView({inline:'center', behavior:'smooth', block:'nearest'});
+}
+
+function renderStepTabs(){
+  const g = grammarData[curGram];
+  const names = getStepNames(g);
+  const wrap = document.getElementById('stepTabs');
+  wrap.innerHTML = names.map((n,i)=>
+    `<div class="step-tab ${i===curStep?'active':''}" data-i="${i}">${i+1}. ${n}</div>`
+  ).join('');
+  wrap.querySelectorAll('.step-tab').forEach(el=>{
+    el.addEventListener('click', ()=>{ curStep = +el.dataset.i; renderAll(); });
+  });
+  const active = wrap.querySelector('.step-tab.active');
+  if(active) active.scrollIntoView({inline:'center', behavior:'smooth', block:'nearest'});
+}
+
+function renderProgress(){
+  const total = getStepNames(grammarData[curGram]).length;
+  document.getElementById('progressLabel').textContent = `문법 ${curGram+1} · ${curStep+1}/${total}`;
+}
+
+function practiceListHTML(items){
+  return items.map((it,idx)=>`
+    <div class="practice-item" data-idx="${idx}">
+      <div class="q">${it.word ? it.word : it.q} <span class="answer-text">→ ${it.answer}</span></div>
+      <button class="btn-answer">정답 보기</button>
+    </div>
+  `).join('') + `<button class="btn-retry">다시 풀기</button>`;
+}
+
+function renderStage(){
+  const g = grammarData[curGram];
+  const stage = document.getElementById('stage');
+  let html = `<div class="grammar-title-box"><span class="main jua">${g.title}</span><span class="sub">${g.sub}</span></div>`;
+
+  const stepName = getStepNames(g)[curStep];
+
+  if(stepName==="상황 도입"){
+    html += `<div class="dialogue">` + g.dialogue.map(d=>
+      `<div class="bubble-row ${d.s}"><div class="bubble">${d.t}</div></div>`
+    ).join('') + `</div>`;
+    html += `<div class="intro-hint">💡 <span class="chip">${g.title}</span>가 어디에 쓰였는지 찾아보세요!</div>`;
+  }
+  else if(stepName==="의미"){
+    html += `<div class="ex-box"><span class="ex-tag">교재 예문</span><p>${g.meaning.textbook}</p></div>`;
+    html += `<div class="ex-box"><span class="ex-tag">일상 예문</span><p>${g.meaning.daily}</p></div>`;
+    html += `<div class="summary-box">${g.meaning.summary}</div>`;
+  }
+  else if(stepName==="형태"){
+    html += `<div class="table-wrap"><table class="form-table"><tr><th>조건</th><th>형태</th><th>예시</th></tr>`
+      + g.forms.map(f=>`<tr><td>${f.cond}</td><td class="form-col">${f.form}</td><td>${f.ex}</td></tr>`).join('')
+      + `</table></div>`;
+  }
+  else if(stepName==="형태 연습"){
+    html += `<div class="hint-bar">💡 단어를 클릭하면 답이 나타나요.</div>`;
+    html += practiceListHTML(g.formPractice);
+  }
+  else if(stepName==="문장 연습"){
+    html += `<div class="example-box"><span class="tag-bogi">보기</span>${g.sentenceExample}</div>`;
+    html += practiceListHTML(g.sentencePractice);
+  }
+  else if(stepName==="말해 보세요"){
+    html += `<div class="talk-more-page">${g.talkMore}</div>`;
+  }
+  else if(stepName==="사용 시 주의점"){
+    html += g.warnings.map(w=>`<div class="warning-box">${w.t}<div class="ex">${w.ex}</div></div>`).join('');
+  }
+  else if(stepName==="비교 문법"){
+    html += `<div class="compare-box"><h4>${g.compareTitle}</h4>
+      <table class="compare-table"><tr>${g.compareHead.map(h=>`<th>${h}</th>`).join('')}</tr>
+      ${g.compareRows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}
+      </table></div>`;
+  }
+
+  stage.innerHTML = html;
+
+  stage.querySelectorAll('.btn-answer').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      btn.closest('.practice-item').classList.add('revealed');
+    });
+  });
+  const retry = stage.querySelector('.btn-retry');
+  if(retry){
+    retry.addEventListener('click', ()=>{
+      stage.querySelectorAll('.practice-item').forEach(it=>it.classList.remove('revealed'));
+    });
+  }
+}
+
+function renderNav(){
+  const total = getStepNames(grammarData[curGram]).length;
+  document.getElementById('prevBtn').disabled = (curGram===0 && curStep===0);
+  document.getElementById('nextBtn').disabled = (curGram===grammarData.length-1 && curStep===total-1);
+}
+
+function renderAll(){
+  renderGramTabs();
+  renderStepTabs();
+  renderProgress();
+  renderStage();
+  renderNav();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.getElementById('prevBtn').addEventListener('click', ()=>{
+  if(curStep>0){ curStep--; }
+  else if(curGram>0){ curGram--; curStep = getStepNames(grammarData[curGram]).length - 1; }
+  renderAll();
+});
+document.getElementById('nextBtn').addEventListener('click', ()=>{
+  const total = getStepNames(grammarData[curGram]).length;
+  if(curStep<total-1){ curStep++; }
+  else if(curGram<grammarData.length-1){ curGram++; curStep=0; }
+  renderAll();
+});
+
+renderAll();
+</script>
+</body>
+</html>
