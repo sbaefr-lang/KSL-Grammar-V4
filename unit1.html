@@ -359,6 +359,17 @@ table.form-table b.red{color:var(--red);font-weight:800;}
   text-align:center;
   line-height:1.6;
 }
+.talk-more-page{
+  margin-top:4px;
+  background:var(--card-bg);
+  border-radius:14px;
+  padding:22px 18px;
+  font-size:15px;
+  font-weight:700;
+  color:var(--purple-dark);
+  text-align:center;
+  line-height:1.8;
+}
 
 /* 6. 사용 시 주의점 */
 .warning-box{
@@ -438,7 +449,9 @@ table.form-table b.red{color:var(--red);font-weight:800;}
 </div>
 
 <script>
-const STEP_NAMES = ["상황 도입","의미","형태","형태 연습","문장 연습","사용 시 주의점","비교 문법"];
+const STEP_NAMES_MAIN = ["상황 도입","의미","형태","형태 연습","문장 연습","사용 시 주의점","비교 문법","말해 보세요"];
+const STEP_NAMES_MORE = ["상황 도입","의미","형태","형태 연습","문장 연습","사용 시 주의점","비교 문법"];
+function getStepNames(g){ return g.isMore ? STEP_NAMES_MORE : STEP_NAMES_MAIN; }
 
 const grammarData = [
 {
@@ -453,7 +466,7 @@ const grammarData = [
   ],
   meaning:{
     textbook:"저녁을 짜게 먹<b>어서 그런지</b> 계속 목이 말라요.",
-    daily:"오늘따라 길이 많이 막히네. 사고가 나<b>서 그런지</b> 차가 안 움직여.",
+    daily:"컴퓨터를 오래 해<b>서 그런지</b> 눈이 피곤해요.",
     summary:"✅ 뒤 내용의 원인·이유일 것 같다고 추측할 때 쓰는 표현이에요."
   },
   forms:[
@@ -503,7 +516,7 @@ const grammarData = [
   ],
   meaning:{
     textbook:"체험 행사에 참여하려면 미리 신청해야 하는 <b>줄 몰랐어</b>.",
-    daily:"저 친구가 우리 학교에 다니는 <b>줄 몰랐어요</b>. 오늘 처음 알았어요.",
+    daily:"저는 오늘 비가 오는 <b>줄 몰랐어요</b>.",
     summary:"✅ 어떤 사실이나 상태에 대해 알고 있거나 모르고 있음을 나타내는 표현이에요."
   },
   forms:[
@@ -652,7 +665,7 @@ const grammarData = [
   ],
   meaning:{
     textbook:"혼자서 그 많은 짐을 다 옮기<b>다니</b> 믿기지가 않아요.",
-    daily:"이 어려운 문제를 그렇게 빨리 풀<b>다니</b>, 정말 놀랍다!",
+    daily:"그 많은 숙제를 벌써 다 끝내<b>다니</b>, 정말 대단해요!",
     summary:"✅ 뜻밖의 사실을 알고 놀라거나 감탄할 때 쓰는 표현이에요."
   },
   forms:[
@@ -755,8 +768,10 @@ function renderGramTabs(){
 }
 
 function renderStepTabs(){
+  const g = grammarData[curGram];
+  const names = getStepNames(g);
   const wrap = document.getElementById('stepTabs');
-  wrap.innerHTML = STEP_NAMES.map((n,i)=>
+  wrap.innerHTML = names.map((n,i)=>
     `<div class="step-tab ${i===curStep?'active':''}" data-i="${i}">${i+1}. ${n}</div>`
   ).join('');
   wrap.querySelectorAll('.step-tab').forEach(el=>{
@@ -767,7 +782,8 @@ function renderStepTabs(){
 }
 
 function renderProgress(){
-  document.getElementById('progressLabel').textContent = `문법 ${curGram+1} · ${curStep+1}/7`;
+  const total = getStepNames(grammarData[curGram]).length;
+  document.getElementById('progressLabel').textContent = `문법 ${curGram+1} · ${curStep+1}/${total}`;
 }
 
 function practiceListHTML(items){
@@ -783,36 +799,39 @@ function renderStage(){
   const g = grammarData[curGram];
   const stage = document.getElementById('stage');
   let html = `<div class="grammar-title-box"><span class="main jua">${g.title}</span><span class="sub">${g.sub}</span></div>`;
+  const stepName = getStepNames(g)[curStep];
 
-  if(curStep===0){
+  if(stepName==="상황 도입"){
     html += `<div class="dialogue">` + g.dialogue.map(d=>
       `<div class="bubble-row ${d.s}"><div class="bubble">${d.t}</div></div>`
     ).join('') + `</div>`;
     html += `<div class="intro-hint">💡 <span class="chip">${g.title}</span>가 어디에 쓰였는지 찾아보세요!</div>`;
   }
-  else if(curStep===1){
+  else if(stepName==="의미"){
     html += `<div class="ex-box"><span class="ex-tag">교재 예문</span><p>${g.meaning.textbook}</p></div>`;
     html += `<div class="ex-box"><span class="ex-tag">일상 예문</span><p>${g.meaning.daily}</p></div>`;
     html += `<div class="summary-box">${g.meaning.summary}</div>`;
   }
-  else if(curStep===2){
+  else if(stepName==="형태"){
     html += `<div class="table-wrap"><table class="form-table"><tr><th>조건</th><th>형태</th><th>예시</th></tr>`
       + g.forms.map(f=>`<tr><td>${f.cond}</td><td class="form-col">${f.form}</td><td>${f.ex}</td></tr>`).join('')
       + `</table></div>`;
   }
-  else if(curStep===3){
+  else if(stepName==="형태 연습"){
     html += `<div class="hint-bar">💡 단어를 클릭하면 답이 나타나요.</div>`;
     html += practiceListHTML(g.formPractice);
   }
-  else if(curStep===4){
+  else if(stepName==="문장 연습"){
     html += `<div class="example-box"><span class="tag-bogi">보기</span>${g.sentenceExample}</div>`;
     html += practiceListHTML(g.sentencePractice);
-    html += `<div class="talk-more">${g.talkMore}</div>`;
   }
-  else if(curStep===5){
+  else if(stepName==="말해 보세요"){
+    html += `<div class="talk-more-page">${g.talkMore}</div>`;
+  }
+  else if(stepName==="사용 시 주의점"){
     html += g.warnings.map(w=>`<div class="warning-box">${w.t}<div class="ex">${w.ex}</div></div>`).join('');
   }
-  else if(curStep===6){
+  else if(stepName==="비교 문법"){
     html += `<div class="compare-box"><h4>${g.compareTitle}</h4>
       <table class="compare-table"><tr>${g.compareHead.map(h=>`<th>${h}</th>`).join('')}</tr>
       ${g.compareRows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}
@@ -835,8 +854,9 @@ function renderStage(){
 }
 
 function renderNav(){
+  const total = getStepNames(grammarData[curGram]).length;
   document.getElementById('prevBtn').disabled = (curGram===0 && curStep===0);
-  document.getElementById('nextBtn').disabled = (curGram===grammarData.length-1 && curStep===6);
+  document.getElementById('nextBtn').disabled = (curGram===grammarData.length-1 && curStep===total-1);
 }
 
 function renderAll(){
@@ -850,11 +870,12 @@ function renderAll(){
 
 document.getElementById('prevBtn').addEventListener('click', ()=>{
   if(curStep>0){ curStep--; }
-  else if(curGram>0){ curGram--; curStep=6; }
+  else if(curGram>0){ curGram--; curStep = getStepNames(grammarData[curGram]).length - 1; }
   renderAll();
 });
 document.getElementById('nextBtn').addEventListener('click', ()=>{
-  if(curStep<6){ curStep++; }
+  const total = getStepNames(grammarData[curGram]).length;
+  if(curStep<total-1){ curStep++; }
   else if(curGram<grammarData.length-1){ curGram++; curStep=0; }
   renderAll();
 });
